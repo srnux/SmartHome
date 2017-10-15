@@ -1,14 +1,5 @@
 /* Defines the sensor entity */
 export interface ISensor {
-    id: number;
-    sensorName: string;
-    sensorCode: string;
-    tags?: string[];
-    releaseDate: string;
-    price: number;
-    description: string;
-    starRating: number;
-    imageUrl: string;
     state: State,
     swupdate: Swupdate,
     config: Config,

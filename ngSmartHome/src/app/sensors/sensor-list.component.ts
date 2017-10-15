@@ -15,6 +15,8 @@ export class SensorListComponent implements OnInit {
     listFilter: string;
     errorMessage: string;
 
+    objectKeys = Object.keys;
+
     sensors: ISensor[];
 
     constructor(private sensorService: SensorService) {
@@ -26,17 +28,25 @@ export class SensorListComponent implements OnInit {
     }
 
     ngOnInit(): void {
+        // this.sensorService.getSensors()
+        //         .subscribe(sensorsJson => this.sensors = this.sensorsList(sensorsJson),
+        //                    error => this.errorMessage = <any>error);
         this.sensorService.getSensors()
-                .subscribe(sensorsJson => this.sensors = this.sensorsList(sensorsJson),
-                           error => this.errorMessage = <any>error);
+        .subscribe(sensorsJson => this.sensors = this.sensorsList(sensorsJson),
+                    error => this.errorMessage = <any>error);
     }
 
     onRatingClicked(message: string): void {
         this.pageTitle = 'Sensor List: ' + message;
     }
 
+    // sensorsList(sensorsJson:any):ISensor[]{
+    //     console.log('updateSensor: ' + JSON.stringify(sensorsJson));
+    //     return Object.keys(sensorsJson).map(function(_) { return sensorsJson[_]; });
+    // }
+
     sensorsList(sensorsJson:any):ISensor[]{
         console.log('updateSensor: ' + JSON.stringify(sensorsJson));
-        return Object.keys(sensorsJson).map(function(_) { return sensorsJson[_]; });
+        return sensorsJson;//Object.keys(sensorsJson).map(function(_) { return sensorsJson[_]; });
     }
 }

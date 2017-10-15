@@ -110,55 +110,56 @@ export class SensorEditComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     onSensorRetrieved(sensor: ISensor): void {
-        if (this.sensorForm) {
-            this.sensorForm.reset();
-        }
-        this.sensor = sensor;
+        
+        // if (this.sensorForm) {
+        //     this.sensorForm.reset();
+        // }
+        // this.sensor = sensor;
 
-        if (this.sensor.id === 0) {
-            this.pageTitle = 'Add Sensor';
-        } else {
-            this.pageTitle = `Edit Sensor: ${this.sensor.sensorName}`;
-        }
+        // if (this.sensor.id === 0) {
+        //     this.pageTitle = 'Add Sensor';
+        // } else {
+        //     this.pageTitle = `Edit Sensor: ${this.sensor.sensorName}`;
+        // }
 
-        // Update the data on the form
-        this.sensorForm.patchValue({
-            sensorName: this.sensor.sensorName,
-            sensorCode: this.sensor.sensorCode,
-            starRating: this.sensor.starRating,
-            description: this.sensor.description
-        });
-        this.sensorForm.setControl('tags', this.fb.array(this.sensor.tags || []));
+        // // Update the data on the form
+        // this.sensorForm.patchValue({
+        //     sensorName: this.sensor.sensorName,
+        //     sensorCode: this.sensor.sensorCode,
+        //     starRating: this.sensor.starRating,
+        //     description: this.sensor.description
+        // });
+        // this.sensorForm.setControl('tags', this.fb.array(this.sensor.tags || []));
     }
 
     deleteSensor(): void {
-        if (this.sensor.id === 0) {
-            // Don't delete, it was never saved.
-            this.onSaveComplete();
-       } else {
-            if (confirm(`Really delete the sensor: ${this.sensor.sensorName}?`)) {
-                this.sensorService.deleteSensor(this.sensor.id)
-                    .subscribe(
-                        () => this.onSaveComplete(),
-                        (error: any) => this.errorMessage = <any>error
-                    );
-            }
-        }
+    //     if (this.sensor.id === 0) {
+    //         // Don't delete, it was never saved.
+    //         this.onSaveComplete();
+    //    } else {
+    //         if (confirm(`Really delete the sensor: ${this.sensor.sensorName}?`)) {
+    //             this.sensorService.deleteSensor(this.sensor.id)
+    //                 .subscribe(
+    //                     () => this.onSaveComplete(),
+    //                     (error: any) => this.errorMessage = <any>error
+    //                 );
+    //         }
+    //     }
     }
 
     saveSensor(): void {
-        if (this.sensorForm.dirty && this.sensorForm.valid) {
-            // Copy the form values over the sensor object values
-            let p = Object.assign({}, this.sensor, this.sensorForm.value);
+        // if (this.sensorForm.dirty && this.sensorForm.valid) {
+        //     // Copy the form values over the sensor object values
+        //     let p = Object.assign({}, this.sensor, this.sensorForm.value);
 
-            this.sensorService.saveSensor(p)
-                .subscribe(
-                    () => this.onSaveComplete(),
-                    (error: any) => this.errorMessage = <any>error
-                );
-        } else if (!this.sensorForm.dirty) {
-            this.onSaveComplete();
-        }
+        //     this.sensorService.saveSensor(p)
+        //         .subscribe(
+        //             () => this.onSaveComplete(),
+        //             (error: any) => this.errorMessage = <any>error
+        //         );
+        // } else if (!this.sensorForm.dirty) {
+        //     this.onSaveComplete();
+        // }
     }
 
     onSaveComplete(): void {

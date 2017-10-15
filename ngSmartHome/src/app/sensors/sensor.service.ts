@@ -12,30 +12,20 @@ import { ISensor, State, Swupdate, Config } from './sensor';
 
 @Injectable()
 export class SensorService {
-    private baseUrl = 'http://192.168.178.56/api/haKfNfJfRQqyRvdHO-2ub-u2Cp9jGKI7nExNquM1/sensors/';
+     
+   private baseUrl = 'http://192.168.178.56/api/haKfNfJfRQqyRvdHO-2ub-u2Cp9jGKI7nExNquM1/';
 
     constructor(private http: Http) { }
 
     getSensors(): Observable<ISensor[]> {
-        return this.http.get(this.baseUrl)
+        return this.http.get(this.baseUrl+ "sensors/")
             .map(this.extractData)
             .do(data => console.log('getSensors: ' + JSON.stringify(data)))
             .catch(this.handleError);
     }
 
     getSensor(id: number): Observable<ISensor> {
-        if (id === 0) {
-        return Observable.of(this.initializeSensor());
-        // return Observable.create((observer: any) => {
-        //     observer.next(this.initializeSensor());
-        //     observer.complete();
-        // });
-        };
-        const url = `${this.baseUrl}/${id}`;
-        return this.http.get(url)
-            .map(this.extractData)
-            .do(data => console.log('getSensor: ' + JSON.stringify(data)))
-            .catch(this.handleError);
+       return this.getSensors().map(sensors => sensors[id]);
     }
 
     deleteSensor(id: number): Observable<Response> {
@@ -48,31 +38,31 @@ export class SensorService {
             .catch(this.handleError);
     }
 
-    saveSensor(sensor: ISensor): Observable<ISensor> {
-        let headers = new Headers({ 'Content-Type': 'application/json' });
-        let options = new RequestOptions({ headers: headers });
+    // saveSensor(sensor: ISensor): Observable<ISensor> {
+    //     let headers = new Headers({ 'Content-Type': 'application/json' });
+    //     let options = new RequestOptions({ headers: headers });
 
-        if (sensor.id === 0) {
-            return this.createSensor(sensor, options);
-        }
-        return this.updateSensor(sensor, options);
-    }
+    //     if (sensor.id === 0) {
+    //         return this.createSensor(sensor, options);
+    //     }
+    //     return this.updateSensor(sensor, options);
+    // }
 
-    private createSensor(sensor: ISensor, options: RequestOptions): Observable<ISensor> {
-        sensor.id = undefined;
-        return this.http.post(this.baseUrl, sensor, options)
-            .map(this.extractData)
-            .do(data => console.log('createSensor: ' + JSON.stringify(data)))
-            .catch(this.handleError);
-    }
+    // private createSensor(sensor: ISensor, options: RequestOptions): Observable<ISensor> {
+    //     sensor.id = undefined;
+    //     return this.http.post(this.baseUrl, sensor, options)
+    //         .map(this.extractData)
+    //         .do(data => console.log('createSensor: ' + JSON.stringify(data)))
+    //         .catch(this.handleError);
+    // }
 
-    private updateSensor(sensor: ISensor, options: RequestOptions): Observable<ISensor> {
-        const url = `${this.baseUrl}/${sensor.id}`;
-        return this.http.put(url, sensor, options)
-            .map(() => sensor)
-            .do(data => console.log('updateSensor: ' + JSON.stringify(data)))
-            .catch(this.handleError);
-    }
+    // private updateSensor(sensor: ISensor, options: RequestOptions): Observable<ISensor> {
+    //     const url = `${this.baseUrl}/${sensor.id}`;
+    //     return this.http.put(url, sensor, options)
+    //         .map(() => sensor)
+    //         .do(data => console.log('updateSensor: ' + JSON.stringify(data)))
+    //         .catch(this.handleError);
+    // }
 
     private extractData(response: Response) {
         let body = response.json();
@@ -89,15 +79,6 @@ export class SensorService {
     initializeSensor(): ISensor {
         // Return an initialized object
         return {
-            id: 0,
-            sensorName: "",
-            sensorCode: "",
-            tags: [],
-            releaseDate: "",
-            price: 0,
-            description: "",
-            starRating: 0,
-            imageUrl: "",
             state: <State>{},
             swupdate: <Swupdate>{},
             config: <Config>{},

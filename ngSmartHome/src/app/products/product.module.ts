@@ -3,8 +3,8 @@ import { RouterModule} from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
 
 // Imports for loading & configuring the in-memory web api
-import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
-import { ProductData }  from './product-data';
+//import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
+//import { ProductData }  from './product-data';
 
 import { ProductListComponent } from './product-list.component';
 import { ProductDetailComponent } from './product-detail.component';
@@ -23,7 +23,7 @@ import { MatButtonModule } from '@angular/material';
     SharedModule,
     ReactiveFormsModule,
     MatButtonModule,
-    InMemoryWebApiModule.forRoot(ProductData),
+    //InMemoryWebApiModule.forRoot(ProductData),
     RouterModule.forChild([
       { path: 'products', component: ProductListComponent },
       { path: 'product/:id',

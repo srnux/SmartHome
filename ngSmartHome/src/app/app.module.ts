@@ -14,6 +14,7 @@ import {CounterComponent} from './counter/counter.component';
 import {FetchDataComponent} from './fetchdata/fetchdata.component'
 import {SamuraiModule} from './samurai/samurai.module'
 import {ProductModule} from './products/product.module'
+import {SensorModule} from './sensors/sensor.module'
 
 import {CdkTableModule} from '@angular/cdk/table';
 import {TableHeaderDemo} from './table/table-header-demo';
@@ -38,7 +39,8 @@ import 'hammerjs';
     AppRoutingModule,
     SamuraiModule,
     ProductModule,
-    CdkTableModule
+    //CdkTableModule,
+    SensorModule
   ],
   providers: [PeopleDatabase],
   bootstrap: [AppComponent]

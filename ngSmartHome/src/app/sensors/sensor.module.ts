@@ -12,13 +12,15 @@ import { SensorService } from './sensor.service';
 
 import { SharedModule } from '../shared/shared.module';
 
-import { MatButtonModule } from '@angular/material';
+//add to shared module maybe?
+import { MaterialModule } from '../shared/material.module';
+import { CookieService } from '../shared/services/cookie.service';
 
 @NgModule({
   imports: [
     SharedModule,
     ReactiveFormsModule,
-    MatButtonModule,
+    MaterialModule,
     //InMemoryWebApiModule.forRoot(SensorData),
     RouterModule.forChild([
       { path: 'sensors', component: SensorListComponent },
@@ -40,7 +42,8 @@ import { MatButtonModule } from '@angular/material';
   providers: [
     SensorService,
     SensorDetailGuard,
-    SensorEditGuard
+    SensorEditGuard,
+    CookieService
   ]
 })
 export class SensorModule {}

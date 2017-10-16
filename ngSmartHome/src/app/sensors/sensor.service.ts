@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
+import { CookieService } from '../shared/services/cookie.service';
 
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/do';
@@ -12,10 +13,22 @@ import { ISensor, State, Swupdate, Config } from './sensor';
 
 @Injectable()
 export class SensorService {
-     
-   private baseUrl = 'http://192.168.178.56/api/haKfNfJfRQqyRvdHO-2ub-u2Cp9jGKI7nExNquM1/';
+    private bridgeIp= "192.168.178.56"
+    private baseUrl:string;
+    private hueUserToken:string;
 
-    constructor(private http: Http) { }
+    constructor(private http: Http, private cookieService:CookieService) { this.Init() }
+    
+    Init() {
+
+        this.hueUserToken = this.cookieService.get('_hue_user_token');
+        if(!this.hueUserToken){
+            //todo: initialize user - set the cookie - hardcoded for now
+            this.cookieService.set( '_hue_user_token', 'haKfNfJfRQqyRvdHO-2ub-u2Cp9jGKI7nExNquM1', 365 );
+        }
+
+        this.baseUrl= `http://${this.bridgeIp}/api/${this.hueUserToken}/`;
+    }
 
     getSensors(): Observable<ISensor[]> {
         return this.http.get(this.baseUrl+ "sensors/")

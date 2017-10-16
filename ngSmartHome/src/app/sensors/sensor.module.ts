@@ -3,6 +3,7 @@ import { RouterModule} from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
 
 import { SensorListComponent } from './sensor-list.component';
+import { SensorTableComponent } from './sensor-table.component';
 import { SensorDetailComponent } from './sensor-detail.component';
 import { SensorDetailGuard, SensorEditGuard } from './sensor-guard.service';
 import { SensorEditComponent } from './sensor-edit.component';
@@ -24,6 +25,7 @@ import { CookieService } from '../shared/services/cookie.service';
     //InMemoryWebApiModule.forRoot(SensorData),
     RouterModule.forChild([
       { path: 'sensors', component: SensorListComponent },
+      { path: 'sensorsTable', component: SensorTableComponent },
       { path: 'sensor/:id',
         canActivate: [ SensorDetailGuard],
         component: SensorDetailComponent
@@ -35,6 +37,7 @@ import { CookieService } from '../shared/services/cookie.service';
   ],
   declarations: [
     SensorListComponent,
+    SensorTableComponent,
     SensorDetailComponent,
     SensorEditComponent,
     SensorFilterPipe

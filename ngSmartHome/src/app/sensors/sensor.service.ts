@@ -37,6 +37,14 @@ export class SensorService {
             .catch(this.handleError);
     }
 
+    getSensorsArray(): Observable<ISensor[]> {
+        return this.http.get(this.baseUrl+ "sensors/")
+        .map(this.extractArray)
+        .do(data => console.log('getSensorsArray: ' + JSON.stringify(data)))
+        .catch(this.handleError);
+    }
+    
+
     getSensor(id: number): Observable<ISensor> {
        return this.getSensors().map(sensors => sensors[id]);
     }
@@ -79,7 +87,14 @@ export class SensorService {
 
     private extractData(response: Response) {
         let body = response.json();
+
         return body || {};
+    }
+
+    private extractArray(response: Response) {
+        let body = response.json();
+        return Object.keys(body).map(function(_) { return body[_]; }) || {};
+        //return body || {};
     }
 
     private handleError(error: Response): Observable<any> {

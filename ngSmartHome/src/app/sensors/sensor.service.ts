@@ -10,6 +10,7 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/observable/of';
 
 import { ISensor, State, Swupdate, Config } from './sensor';
+import { environment } from '../../environments/environment'
 
 @Injectable()
 export class SensorService {
@@ -28,7 +29,8 @@ export class SensorService {
         }
 
         //this.baseUrl= `http://${this.bridgeIp}/api/${this.hueUserToken}/`;
-        this.baseUrl= `/api/`;
+        alert(environment.production);
+        this.baseUrl= environment.baseUrl;//`/api/`;
     }
 
     getSensors(): Observable<ISensor[]> {
@@ -88,7 +90,7 @@ export class SensorService {
     private extractData(response: Response) {
         let body = response.json();
 
-        return body || {};
+        return body.data || {};
     }
 
     private extractArray(response: Response) {

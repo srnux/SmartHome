@@ -36,9 +36,9 @@ export class SensorTableComponent implements OnInit {
         // this.sensorService.getSensors()
         //         .subscribe(sensorsJson => this.sensors = this.sensorsList(sensorsJson),
         //                    error => this.errorMessage = <any>error);
-        this.sensorService.getSensors()
-        .subscribe(sensorsJson => this.sensors = this.sensorsList(sensorsJson),
-                    error => this.errorMessage = <any>error);
+        // this.sensorService.getSensors()
+        // .subscribe(sensorsJson => this.sensors = this.sensorsList(sensorsJson),
+        //             error => this.errorMessage = <any>error);
     }
 
     // getSensors():Observable<ISensor[]>{

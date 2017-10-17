@@ -18,18 +18,21 @@ import { MaterialModule } from '../shared/material.module';
 import { CookieService } from '../shared/services/cookie.service';
 
 // Imports for loading & configuring the in-memory web api
-import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
-import { SensorData }  from './sensor-data';
+// import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
+import { SensorHttpModule }  from './sensor.http.module';
+//import { SensorData }  from './sensor-data';
 
 @NgModule({
   imports: [
     SharedModule,
     ReactiveFormsModule,
     MaterialModule,
-    InMemoryWebApiModule.forRoot(SensorData),
+    SensorHttpModule,
+    //InMemoryWebApiModule.forRoot(SensorData),
     RouterModule.forChild([
       { path: 'sensors', component: SensorListComponent },
       { path: 'sensorsTable', component: SensorTableComponent },
+      { path: 'sensorsList', component: SensorListComponent },
       { path: 'sensor/:id',
         canActivate: [ SensorDetailGuard],
         component: SensorDetailComponent

@@ -27,7 +27,8 @@ export class SensorService {
             this.cookieService.set( '_hue_user_token', 'haKfNfJfRQqyRvdHO-2ub-u2Cp9jGKI7nExNquM1', 365 );
         }
 
-        this.baseUrl= `http://${this.bridgeIp}/api/${this.hueUserToken}/`;
+        //this.baseUrl= `http://${this.bridgeIp}/api/${this.hueUserToken}/`;
+        this.baseUrl= `/api/`;
     }
 
     getSensors(): Observable<ISensor[]> {
@@ -43,7 +44,6 @@ export class SensorService {
         .do(data => console.log('getSensorsArray: ' + JSON.stringify(data)))
         .catch(this.handleError);
     }
-    
 
     getSensor(id: number): Observable<ISensor> {
        return this.getSensors().map(sensors => sensors[id]);

@@ -17,12 +17,16 @@ import { SharedModule } from '../shared/shared.module';
 import { MaterialModule } from '../shared/material.module';
 import { CookieService } from '../shared/services/cookie.service';
 
+// Imports for loading & configuring the in-memory web api
+import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
+import { SensorData }  from './sensor-data';
+
 @NgModule({
   imports: [
     SharedModule,
     ReactiveFormsModule,
     MaterialModule,
-    //InMemoryWebApiModule.forRoot(SensorData),
+    InMemoryWebApiModule.forRoot(SensorData),
     RouterModule.forChild([
       { path: 'sensors', component: SensorListComponent },
       { path: 'sensorsTable', component: SensorTableComponent },

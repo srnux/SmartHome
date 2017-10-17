@@ -6,6 +6,7 @@ import { SamuraiComponent } from './samurai/samurai.component'
 import { ProductListComponent } from './products/product-list.component'
 import {TableDemo} from './table/table-demo'
 import { SensorListComponent } from './sensors/sensor-list.component'
+import { SensorTableComponent } from './sensors/sensor-table.component'
 
 const routes: Routes = [
     { path: '', redirectTo: 'samurai', pathMatch: 'full' },
@@ -15,7 +16,7 @@ const routes: Routes = [
     { path: 'home', component: SamuraiComponent },
     { path: 'products', component: ProductListComponent },
     {path:'table',component:TableDemo},
-    {path:'sensors',component:SensorListComponent}
+    {path:'sensors',component:SensorTableComponent}
    // { path: '**', redirectTo: 'samurai' }
 ];
 

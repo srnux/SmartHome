@@ -15,6 +15,7 @@ export interface ISensor {
 export interface State {
     temperature: number;
     lastupdated: Date;
+    daylight:boolean;
 }
 
 export interface Swupdate {

@@ -1,3 +1,9 @@
+# To dos: 
+- [ ] In memory API enable/disable page
+- [ ] Sensor details/edit
+- [ ] Sensor table filter and sort
+- [x] Basic sensor table /sensorsTable
+
 # Ngtest
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.2.0.

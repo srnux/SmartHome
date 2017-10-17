@@ -1,9 +1,9 @@
 # To dos: 
 - [x] In memory API enable-DEV/disable-PROD on environment switching - 
-  test on NG Live devepopment server
-  # ng serve --prod 
-  production build
-  # ng build --prod --env=prod
+  test on NG Live devepopment server:
+    `ng serve --prod`
+  production build:
+    `ng build --prod --env=prod`
 - [ ] Sensor details/edit
 - [ ] Sensor table filter and sort
 - [x] Basic sensor table /sensorsTable

@@ -8,7 +8,8 @@ export interface ISensor {
     modelid: string;
     manufacturername: string,
     swversion: string,
-    uniqueid: string
+    uniqueid: string,
+    id:number
 }
 
 export interface State {

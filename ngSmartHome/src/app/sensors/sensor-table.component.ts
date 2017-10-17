@@ -21,7 +21,7 @@ export class SensorTableComponent implements OnInit {
 
     sensors: ISensor[];
 
-    displayedColumns = ['modelid', 'manufacturername', 'state.temperature'];
+    displayedColumns = ['id', 'modelid', 'manufacturername', 'state.temperature'];
     dataSource = new SensorsTableDataSource(this.sensorService);
 
     constructor(private sensorService: SensorService) {
@@ -60,7 +60,7 @@ export class SensorTableComponent implements OnInit {
     //     return sensorsJson;//Object.keys(sensorsJson).map(function(_) { return sensorsJson[_]; });
     // }
 
-    //conver to array
+    //convert to array
     sensorsList(sensorsJson:any):ISensor[]{
         console.log('updateSensor: ' + JSON.stringify(sensorsJson));
         return Object.keys(sensorsJson).map(function(_) { return sensorsJson[_]; });

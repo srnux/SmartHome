@@ -93,7 +93,14 @@ export class SensorService {
 
     private extractArray(response: Response) {
         let body = response.json();
-        return Object.keys(body).map(function(_) { return body[_]; }) || {};
+
+        // Object.keys(body).forEach(function(key) {
+        //     console.log(key + ': ' + body[key]);
+        // });
+        return Object.keys(body).map(function(key) { 
+            body[key].id=key;
+            return body[key]; 
+        }) || {};
         //return body || {};
     }
 
@@ -107,6 +114,7 @@ export class SensorService {
     initializeSensor(): ISensor {
         // Return an initialized object
         return {
+            id:0,
             state: <State>{},
             swupdate: <Swupdate>{},
             config: <Config>{},

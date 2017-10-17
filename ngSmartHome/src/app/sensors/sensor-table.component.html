@@ -2,11 +2,18 @@
         <mat-table #table [dataSource]="dataSource">
       
           <!--- Note that these columns can be defined in any order.
-                The actual rendered columns are set as a property on the row definition" -->
-      
+                The actual rendered columns are set as a property on the row definition" [routerLink]=`['/sensor',{{element.id}}]` -->
+                
+                <ng-container matColumnDef="id">
+                <mat-header-cell *matHeaderCellDef> Id </mat-header-cell>
+                <mat-cell *matCellDef="let element"> {{element.id}} </mat-cell>
+            </ng-container>
+
           <ng-container matColumnDef="modelid">
             <mat-header-cell *matHeaderCellDef> Model </mat-header-cell>
-            <mat-cell *matCellDef="let element"> {{element.modelid}} </mat-cell>
+            <mat-cell  *matCellDef="let element">
+                 {{element.modelid}} 
+            </mat-cell>
           </ng-container>
 
           <ng-container matColumnDef="manufacturername">

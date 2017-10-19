@@ -14,7 +14,7 @@ import { ProductEditComponent } from './product-edit.component';
 import { ProductFilterPipe } from './product-filter.pipe';
 import { ProductService } from './product.service';
 
-import { SharedModule } from '../shared/shared.module';
+import { SharedModule } from '../shared/modules/shared.module';
 
 import { MatButtonModule } from '@angular/material';
 

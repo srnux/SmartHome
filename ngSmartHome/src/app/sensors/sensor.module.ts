@@ -11,15 +11,16 @@ import { SensorEditComponent } from './sensor-edit.component';
 import { SensorFilterPipe } from './sensor-filter.pipe';
 import { SensorService } from './sensor.service';
 
-import { SharedModule } from '../shared/shared.module';
+import { SharedModule } from '../shared/modules/shared.module';
 
 //add to shared module maybe?
-import { MaterialModule } from '../shared/material.module';
+import { MaterialModule } from '../shared/modules/material.module';
 import { CookieService } from '../shared/services/cookie.service';
+import { EnvironmentService } from '../shared/services/environment.service';
 
 // Imports for loading & configuring the in-memory web api
 // import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
-import { SensorHttpModule }  from './sensor.http.module';
+import { SensorHttpModule }  from './sensors.http.module';
 //import { SensorData }  from './sensor-data';
 
 @NgModule({
@@ -53,7 +54,8 @@ import { SensorHttpModule }  from './sensor.http.module';
     SensorService,
     SensorDetailGuard,
     SensorEditGuard,
-    CookieService
+    CookieService,
+    EnvironmentService
   ]
 })
 export class SensorModule {}

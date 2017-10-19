@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import { CookieService } from '../shared/services/cookie.service';
+import { EnvironmentService } from '../shared/services/environment.service';
 
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/do';
@@ -18,7 +19,7 @@ export class SensorService {
     private baseUrl:string;
     private hueUserToken:string;
 
-    constructor(private http: Http, private cookieService:CookieService) { this.Init() }
+    constructor(private http: Http, private cookieService:CookieService,private environmentService:EnvironmentService) { this.Init() }
     
     Init() {
 
@@ -29,8 +30,7 @@ export class SensorService {
         }
 
         //this.baseUrl= `http://${this.bridgeIp}/api/${this.hueUserToken}/`;
-        alert(environment.production);
-        this.baseUrl= environment.baseUrl;//`/api/`;
+        this.baseUrl= this.environmentService.baseUrl;//`/api/`;
     }
 
     getSensors(): Observable<ISensor[]> {

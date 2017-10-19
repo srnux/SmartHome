@@ -4,19 +4,19 @@ import { HttpModule, XHRBackend, BrowserXhr,
          ResponseOptions,  XSRFStrategy } from '@angular/http';
 
 import { HttpBackendService, InMemoryDbService } from 'angular-in-memory-web-api';//InMemoryBackendService
-import { environment } from '../../environments/environment'
+import { environment } from '../../../environments/environment'
 
 
-import { SensorData }  from './sensor-data';
+import { EnvironmentData }  from '../environment.data';
 
 export function customHttpFactory(injector: Injector, browser: BrowserXhr,
   xsrf: XSRFStrategy, options: ResponseOptions): any{
-    if (environment.production) {
+    // if (environment.production) {
       return new XHRBackend(browser, options, xsrf);
-    } else {
-      return new HttpBackendService(injector, new SensorData(), {
-      });
-    }
+    // } else {
+    //   return new HttpBackendService(injector, new EnvironmentData(), {
+    //   });
+    // }
 };
 
 @NgModule({
@@ -29,5 +29,5 @@ export function customHttpFactory(injector: Injector, browser: BrowserXhr,
     }
   ]
 })
-export class SensorHttpModule {
+export class EnvironmentHttpModule {
 }

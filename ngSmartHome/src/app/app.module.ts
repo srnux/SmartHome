@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import {HttpModule} from '@angular/http'
 import { FormsModule } from '@angular/forms';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations'
-import {MaterialModule} from './shared/material.module'
+import {MaterialModule} from './shared/modules/material.module'
 
 import { AppRoutingModule } from './app-routing.module';
 import {NavMenuComponent} from './navmenu/navmenu.component'

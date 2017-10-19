@@ -9,7 +9,7 @@ import '../../app/rxjs-extensions';
 
 //import 'hammerjs';
 
-import { MaterialModule } from '../shared/material.module';
+import { MaterialModule } from '../shared/modules/material.module';
 
 import { SamuraiComponent }          from './samurai.component';
 import { SamuraiService }          from './samurai.service';

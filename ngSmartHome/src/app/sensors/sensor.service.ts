@@ -2,16 +2,19 @@ import { Injectable } from '@angular/core';
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import { CookieService } from '../shared/services/cookie.service';
 import { EnvironmentService } from '../shared/services/environment.service';
-
-import { Observable } from 'rxjs/Observable';
+import {Observable} from 'rxjs/Rx';
+//import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/throw';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/observable/of';
+import 'rxjs/add/operator/switchMap';
 
 import { ISensor, State, Swupdate, Config } from './sensor';
 import { environment } from '../../environments/environment'
+
+import { INuPnPResponse } from 'app/shared/INuPnPResponse';
 
 @Injectable()
 export class SensorService {
@@ -28,12 +31,10 @@ export class SensorService {
             //todo: initialize user - set the cookie - hardcoded for now
             this.cookieService.set( '_hue_user_token', 'haKfNfJfRQqyRvdHO-2ub-u2Cp9jGKI7nExNquM1', 365 );
         }
-
-        //this.baseUrl= `http://${this.bridgeIp}/api/${this.hueUserToken}/`;
-        this.baseUrl= this.environmentService.baseUrl;//`/api/`;
     }
 
     getSensors(): Observable<ISensor[]> {
+        console.log(this.baseUrl+ "sensors/")
         return this.http.get(this.baseUrl+ "sensors/")
             .map(this.extractData)
             .do(data => console.log('getSensors: ' + JSON.stringify(data)))
@@ -41,10 +42,14 @@ export class SensorService {
     }
 
     getSensorsArray(): Observable<ISensor[]> {
-        return this.http.get(this.baseUrl+ "sensors/")
-        .map(this.extractArray)
-        .do(data => console.log('getSensorsArray: ' + JSON.stringify(data)))
-        .catch(this.handleError);
+        return this.environmentService.getBridgeIp().switchMap(
+            NuPnPResponse => {
+                return this.http.get(`http://${NuPnPResponse[0].internalipaddress}/api/${this.hueUserToken}/`+ "sensors/")
+                    .map(this.extractArray)
+                    .do(data => console.log('getSensorsArray: ' + JSON.stringify(data)))
+                    .catch(this.handleError);
+            }
+        );
     }
 
     getSensor(id: number): Observable<ISensor> {

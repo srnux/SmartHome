@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { CookieService } from '../services/cookie.service';
 import { environment } from '../../../environments/environment'
-import { Http, Response, Headers, RequestOptions } from '@angular/http';
+import { Http, Response, Headers, RequestOptions, Request, ResponseContentType } from '@angular/http';
 
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/do';
@@ -10,15 +10,15 @@ import 'rxjs/add/observable/throw';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/observable/of';
 
+import { INuPnPResponse } from 'app/shared/INuPnPResponse';
 @Injectable()
 export class EnvironmentService {
-  public baseUrl:string;
-  public nuPnPUrl='https://www.meethue.com/api/nupnp/';
+  //public baseUrl:string;
   private bridgeIp= "192.168.178.56" //to do- retrieve the IP from service
   
   private hueUserToken:string;
 
-  constructor(private http: Http, private cookieService:CookieService) { this.Init() }
+  constructor(private http: Http, private cookieService:CookieService,private requestOptions:RequestOptions) { this.Init() }
   
   Init() {
 
@@ -29,34 +29,41 @@ export class EnvironmentService {
       }
 
       //if(environment.production){
-        this.baseUrl= `http://${this.bridgeIp}/api/${this.hueUserToken}/`
+       // this.baseUrl= `http://${this.bridgeIp}/api/${this.hueUserToken}/`
       //}else{
       //  this.baseUrl= `/api/`;
       //}
       
-      this.getBridgeIp();
+    //   this.getBridgeIp().subscribe(
+    //     data => {
+    //         this.baseUrl= `http://${data[0].internalipaddress}/api/${this.hueUserToken}/`
+    //     }
+    //   );
   }
 
-  //getBridgeIp(): Observable<NuPnPResponse[]> {
-    getBridgeIp(): any {
-      return this.http.get(this.nuPnPUrl)
-        //.map(this.extractArray)
-        .do(data => this.testData(data))
-        .catch(this.handleError);
+    //todo: support multiple bridges
+    getBridgeIp(): Observable<INuPnPResponse[]>  {
+        let nuPnPUrl=`https://www.meethue.com/api/nupnp/`;
+        return this.http.get(nuPnPUrl, this.requestOptions)
+            .map(this.extractData)
+            .do(data => this.testData(data))
+            .catch(this.handleError);
   }
 
-  private testData(data: any) {
+  private testData(data: INuPnPResponse[]) {
     console.log('getbridgeIp: ' + JSON.stringify(data));
-}
-    private extractData(response: Response) {
+  }
+   
+  private extractData(response: Response) {
       let body = response.json();
 
-      return body.data || {};
+      return body || {};
   }
 
   private extractArray(response: Response) {
       let body = response.json();
 
+      console.log("extract array  "+ JSON.stringify(body));
       // Object.keys(body).forEach(function(key) {
       //     console.log(key + ': ' + body[key]);
       // });

@@ -1,7 +1,8 @@
 ### Smart Home playground project
 ### Typescript, Angular, Ionic
 
-This project is created with starter template for [Ionic] (https://github.com/ionic-team/ionic2-app-base) (http://ionicframework.com/docs/) projects.
+This project is created with starter template for [Ionic](https://github.com/ionic-team/ionic2-app-base) projects.
+[Ionic Framework](http://ionicframework.com/docs/)
 
 Install Ionic Cordova globally 
 ```bash
@@ -18,7 +19,9 @@ Philips Hue Motion Sensor
 
 ### Build and run for platform with the Ionic CLI:
 Open in browser
+```bash
 $ ionic serve
+```
 
 Android
 

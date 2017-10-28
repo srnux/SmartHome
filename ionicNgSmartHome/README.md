@@ -26,7 +26,8 @@ $ ionic serve
 Android
 
 [Configuration](https://cordova.apache.org/docs/en/latest/guide/platforms/android/)
-Run in Andorid emulator
+
+Run in Android emulator
 ```bash
 $ ionic cordova emulate android
 ```

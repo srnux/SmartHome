@@ -9,10 +9,24 @@ import { ContactPage } from '../pages/contact/contact';
 import { HomePage } from '../pages/home/home';
 import { TabsPage } from '../pages/tabs/tabs';
 import {Temperature} from '../pages/temperature/temperature'
+import {EmailNotification} from '../pages/emailNotification/emailNotification'
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { SensorService} from '../services/sensor.service'
+
+import {NgGapiClientConfig, GoogleApiModule, NG_GAPI_CONFIG} from './gapi';
+import { GoogleUserService } from '../services/google.user.service';
+
+let gapiClientConfig: NgGapiClientConfig = {
+  client_id: "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXx.apps.googleusercontent.com",
+  discoveryDocs: ["https://analyticsreporting.googleapis.com/$discovery/rest?version=v4"],
+  scope: [
+      "https://www.googleapis.com/auth/analytics.readonly",
+      "https://www.googleapis.com/auth/analytics",
+      "https://www.googleapis.com/auth/gmail.readonly"
+  ].join(" ")
+};
 
 @NgModule({
   declarations: [
@@ -21,12 +35,17 @@ import { SensorService} from '../services/sensor.service'
     ContactPage,
     HomePage,
     TabsPage,
-    Temperature
+    Temperature,
+    EmailNotification
   ],
   imports: [
     BrowserModule,
     HttpModule,
-    IonicModule.forRoot(MyApp)
+    IonicModule.forRoot(MyApp),
+    GoogleApiModule.forRoot({
+      provide: NG_GAPI_CONFIG,
+      useValue: gapiClientConfig
+    }),
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -35,13 +54,15 @@ import { SensorService} from '../services/sensor.service'
     ContactPage,
     HomePage,
     TabsPage,
-    Temperature
+    Temperature,
+    EmailNotification
   ],
   providers: [
     StatusBar,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
-    SensorService
+    SensorService,
+    GoogleUserService
   ]
 })
 export class AppModule {}

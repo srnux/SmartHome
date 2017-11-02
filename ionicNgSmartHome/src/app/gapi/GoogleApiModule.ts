@@ -1,6 +1,9 @@
 import {ModuleWithProviders, NgModule, Provider} from "@angular/core";
 import {GoogleAuthService} from "./GoogleAuthService";
 import {GoogleApiService} from "./GoogleApiService";
+import {GoogleMailService} from "./GoogleMailService";
+import {GoogleClientService} from "./GoogleClientService";
+
 
 @NgModule()
 export class GoogleApiModule {
@@ -10,7 +13,9 @@ export class GoogleApiModule {
             providers: [
                 gapiConfigProvider,
                 GoogleAuthService,
-                GoogleApiService
+                GoogleApiService,
+                GoogleMailService,
+                GoogleClientService
             ]
         }
     }

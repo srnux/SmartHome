@@ -7,5 +7,6 @@ export interface IUser{
     familyName:string;
     token:string;
     accessToken:string;
+    threadsTotal: number
 }
 

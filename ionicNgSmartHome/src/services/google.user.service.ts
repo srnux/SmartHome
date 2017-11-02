@@ -1,5 +1,6 @@
 import {Injectable, NgZone} from "@angular/core";
 import {GoogleAuthService} from "../app/gapi/GoogleAuthService";
+import {GoogleMailService} from "../app/gapi/GoogleMailService";
 import GoogleUser = gapi.auth2.GoogleUser;
 import GoogleAuth = gapi.auth2.GoogleAuth;
 import { Observable } from "rxjs/Observable";
@@ -13,10 +14,10 @@ import { IUser } from "./user";
 @Injectable()
 export class GoogleUserService {
     public static readonly SESSION_STORAGE_KEY: string = "accessToken";
-    public user: IUser = {id:"",name:"",email:"",familyName:"",givenName:"",accessToken:"",imageUrl:"",token:""};
+    public user: IUser = {id:"",name:"",email:"",familyName:"",givenName:"",accessToken:"",imageUrl:"",token:"",threadsTotal:0};
 
-    constructor(private googleAuthService: GoogleAuthService,
-                private ngZone: NgZone) {
+    constructor(private googleAuthService: GoogleAuthService, 
+        private googleMailService:GoogleMailService) {
     }
 
     // public setUser(user: GoogleUser): void {
@@ -35,7 +36,7 @@ export class GoogleUserService {
         return sessionStorage.getItem(GoogleUserService.SESSION_STORAGE_KEY);
     }
 
-    public signIn(): Observable<GoogleUser> {
+    public signIn(): Observable<IUser> {
         return this.googleAuthService.getAuth().switchMap(
             (auth)=>{
                 return auth.signIn().then(res => this.signInSuccessHandler(res), err => this.signInErrorHandler(err))
@@ -74,7 +75,6 @@ export class GoogleUserService {
     }
 
     private signInSuccessHandler(googleUser: GoogleUser) {
-        //this.ngZone.run(() => {
             ((u, p) => {
                 u.id            = p.getId();
                 u.name          = p.getName();
@@ -92,7 +92,14 @@ export class GoogleUserService {
             sessionStorage.setItem(
                 GoogleUserService.SESSION_STORAGE_KEY, this.user.accessToken
             );
-        //});
+
+            this.googleMailService.getClient().subscribe((mail)=>{
+                    try {
+                        this.user.threadsTotal=mail.threadsTotal;
+                    } catch (e) {
+                        console.error(e);
+                    }
+            })
     }
 
     private signInErrorHandler(err) {

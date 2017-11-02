@@ -19,7 +19,7 @@ export class EmailNotification {
     text: number = 0;
     temperature:number=0.0;
 
-    user: IUser = {id:"",name:"",email:"",familyName:"",givenName:"",accessToken:"",imageUrl:"",token:""};
+    user: IUser = {id:"",name:"",email:"",familyName:"",givenName:"",accessToken:"",imageUrl:"",token:"",threadsTotal:0};
     ivica:string="ivica i marica";
     constructor(public navCtrl: NavController, private googleUserService:GoogleUserService) {
         this.Init();

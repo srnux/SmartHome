@@ -28,6 +28,7 @@ export class GoogleClientService {
                 this.GoogleClient = client;
                 observer.next(client);
                 observer.complete();
+                console.info("gapi.client")
             });
         });
     }

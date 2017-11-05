@@ -19,18 +19,19 @@ export class EmailNotification {
     text: number = 0;
     temperature:number=0.0;
 
-    user: IUser = {id:"",name:"",email:"",familyName:"",givenName:"",accessToken:"",imageUrl:"",token:"",threadsTotal:0};
-    ivica:string="ivica i marica";
+    user: IUser = {id:"",name:"",email:"",familyName:"",givenName:"",accessToken:"",imageUrl:"",token:"",threadsTotal:0,historyId:0,messagesTotal:0};
     constructor(public navCtrl: NavController, private googleUserService:GoogleUserService) {
         this.Init();
     }
 
     Init(refresher?:Refresher) {
-        this.googleUserService.signIn().subscribe((p)=>{
+      this.googleUserService.signIn().subscribe(
+        (p)=>{
           this.user=this.googleUserService.user;
           
           if(refresher)refresher.complete();
-        });
+        },(e)=>{console.error(e);}
+      );
     }
 
     doRefresh(refresher) {

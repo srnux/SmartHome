@@ -7,6 +7,8 @@ export interface IUser{
     familyName:string;
     token:string;
     accessToken:string;
-    threadsTotal: number
+    threadsTotal: number,
+    historyId: number,
+    messagesTotal : number
 }
 

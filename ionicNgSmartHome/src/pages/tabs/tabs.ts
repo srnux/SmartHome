@@ -12,8 +12,8 @@ import {EmailNotification} from '../emailNotification/emailNotification'
 export class TabsPage {
 
   tab1Root = HomePage;
-  tab2Root = Temperature;
-  tab3Root = EmailNotification;
+  tab2Root = EmailNotification;
+  tab3Root = Temperature;
   tab4Root = ContactPage;
 
   constructor() {

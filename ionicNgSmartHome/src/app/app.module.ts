@@ -24,7 +24,8 @@ let gapiClientConfig: NgGapiClientConfig = {
   scope: [
       "https://www.googleapis.com/auth/analytics.readonly",
       "https://www.googleapis.com/auth/analytics",
-      "https://www.googleapis.com/auth/gmail.readonly"
+      "https://www.googleapis.com/auth/gmail.readonly",
+      "https://www.googleapis.com/auth/drive.readonly"
   ].join(" ")
 };
 

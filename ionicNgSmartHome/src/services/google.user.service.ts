@@ -14,10 +14,19 @@ import { IUser } from "./user";
 @Injectable()
 export class GoogleUserService {
     public static readonly SESSION_STORAGE_KEY: string = "accessToken";
-    public user: IUser = {id:"",name:"",email:"",familyName:"",givenName:"",accessToken:"",imageUrl:"",token:"",threadsTotal:0};
+    public user: IUser = {id:"",name:"",email:"",familyName:"",givenName:"",accessToken:"",imageUrl:"",token:"",threadsTotal:0,historyId:0,messagesTotal:0};
 
     constructor(private googleAuthService: GoogleAuthService, 
         private googleMailService:GoogleMailService) {
+            this.googleMailService.getMailClient().mergeMap(()=> this.googleMailService.getUserProfile()).subscribe((mail)=>{
+                try {
+                    this.user.threadsTotal=mail.threadsTotal;
+                    this.user.messagesTotal= mail.messagesTotal;
+                    this.user.historyId = mail.historyId;
+                } catch (e) {
+                    console.error(e);
+                }
+            });
     }
 
     // public setUser(user: GoogleUser): void {
@@ -36,7 +45,7 @@ export class GoogleUserService {
         return sessionStorage.getItem(GoogleUserService.SESSION_STORAGE_KEY);
     }
 
-    public signIn(): Observable<IUser> {
+    public signIn(): Observable<GoogleAuth> {
         return this.googleAuthService.getAuth().switchMap(
             (auth)=>{
                 return auth.signIn().then(res => this.signInSuccessHandler(res), err => this.signInErrorHandler(err))
@@ -93,13 +102,15 @@ export class GoogleUserService {
                 GoogleUserService.SESSION_STORAGE_KEY, this.user.accessToken
             );
 
-            this.googleMailService.getClient().subscribe((mail)=>{
-                    try {
-                        this.user.threadsTotal=mail.threadsTotal;
-                    } catch (e) {
-                        console.error(e);
-                    }
-            })
+            // return this.googleMailService.getMailClient().mergeMap(()=> this.googleMailService.getUserProfile()).subscribe((mail)=>{
+            //         try {
+            //             this.user.threadsTotal=mail.threadsTotal;
+            //             this.user.messagesTotal= mail.messagesTotal;
+            //             this.user.historyId = mail.historyId;
+            //         } catch (e) {
+            //             console.error(e);
+            //         }
+            // })
     }
 
     private signInErrorHandler(err) {

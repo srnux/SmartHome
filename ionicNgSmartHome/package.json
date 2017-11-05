@@ -26,6 +26,7 @@
     "@ionic/storage": "2.0.1",
     "@types/gapi": "0.0.35",
     "@types/gapi.auth2": "0.0.45",
+    "@types/gapi.client": "^1.0.0",
     "@types/gapi.client.gmail": "^1.0.0",
     "cordova-android": "~6.3.0",
     "cordova-plugin-device": "^1.1.4",
@@ -41,9 +42,11 @@
   },
   "devDependencies": {
     "@ionic/app-scripts": "3.0.0",
-    "typescript": "2.3.4",
     "@types/gapi": "^0.0.35",
-    "@types/gapi.auth2": "^0.0.45"
+    "@types/gapi.auth2": "^0.0.45",
+    "@types/gapi.client": "^1.0.0",
+    "@types/gapi.client.gmail": "^1.0.0",
+    "typescript": "2.3.4"
   },
   "description": "Smart Home Ionic project",
   "cordova": {

@@ -3,6 +3,7 @@ import {GoogleAuthService} from "../app/gapi/GoogleAuthService";
 import {GoogleMailService} from "../app/gapi/GoogleMailService";
 import GoogleUser = gapi.auth2.GoogleUser;
 import GoogleAuth = gapi.auth2.GoogleAuth;
+import Message = gapi.client.gmail.Message;
 import { Observable } from "rxjs/Observable";
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/catch';
@@ -15,27 +16,19 @@ import { IUser } from "./user";
 export class GoogleUserService {
     public static readonly SESSION_STORAGE_KEY: string = "accessToken";
     public user: IUser = {id:"",name:"",email:"",familyName:"",givenName:"",accessToken:"",imageUrl:"",token:"",threadsTotal:0,historyId:0,messagesTotal:0};
-
+    private messages:Message[];
     constructor(private googleAuthService: GoogleAuthService, 
         private googleMailService:GoogleMailService) {
-            this.googleMailService.getMailClient().mergeMap(()=> this.googleMailService.getUserProfile()).subscribe((mail)=>{
-                try {
-                    this.user.threadsTotal=mail.threadsTotal;
-                    this.user.messagesTotal= mail.messagesTotal;
-                    this.user.historyId = mail.historyId;
-                } catch (e) {
-                    console.error(e);
-                }
-            });
+            
     }
 
-    // public setUser(user: GoogleUser): void {
-    //     this.user = user;
-    // }
+    public getCurrentUser(): Observable<IUser> {
+        return this.googleMailService.getMailClient().mergeMap(()=> this.googleMailService.getUserProfile());
+    }
 
-    // public getCurrentUser(): GoogleUser {
-    //     return this.user;
-    // }
+    public getMessages(query?:string):Observable<Message[]>{
+        return this.googleMailService.getMailClient().mergeMap(()=> this.googleMailService.getMessages());
+    }
 
     public getToken(): string {
         let token: string = sessionStorage.getItem(GoogleUserService.SESSION_STORAGE_KEY);
@@ -45,7 +38,7 @@ export class GoogleUserService {
         return sessionStorage.getItem(GoogleUserService.SESSION_STORAGE_KEY);
     }
 
-    public signIn(): Observable<GoogleAuth> {
+    public signIn(): Observable<IUser> {
         return this.googleAuthService.getAuth().switchMap(
             (auth)=>{
                 return auth.signIn().then(res => this.signInSuccessHandler(res), err => this.signInErrorHandler(err))

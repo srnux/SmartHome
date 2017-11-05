@@ -3,21 +3,14 @@ import { NavController } from 'ionic-angular';
 import { Refresher } from 'ionic-angular';
 import { GoogleUserService } from '../../services/google.user.service'
 import GoogleUser = gapi.auth2.GoogleUser;
-
+import Message = gapi.client.gmail.Message;
 import {Observable} from 'rxjs/Rx';
 import { IUser } from '../../services/user';
 @Component({
   templateUrl: 'emailNotification.html'
 })
 export class EmailNotification {
-  motion: any;
-  illuminance: number;
-    brightness: number = 20;
-    contrast: number = 0;
-    warmth: number = 1300;
-    structure: any = { lower: 33, upper: 60 };
-    text: number = 0;
-    temperature:number=0.0;
+    private messages:Message[];
 
     user: IUser = {id:"",name:"",email:"",familyName:"",givenName:"",accessToken:"",imageUrl:"",token:"",threadsTotal:0,historyId:0,messagesTotal:0};
     constructor(public navCtrl: NavController, private googleUserService:GoogleUserService) {
@@ -27,8 +20,26 @@ export class EmailNotification {
     Init(refresher?:Refresher) {
       this.googleUserService.signIn().subscribe(
         (p)=>{
-          this.user=this.googleUserService.user;
+          this.user=this.googleUserService.user;//get authenticated user
           
+          this.googleUserService.getCurrentUser().subscribe((mail)=>{
+            try {
+                this.user.threadsTotal=mail.threadsTotal;
+                this.user.messagesTotal= mail.messagesTotal;
+                this.user.historyId = mail.historyId;
+            } catch (e) {
+                console.error(e);
+            }
+          });
+
+          this.googleUserService.getMessages().subscribe((messages)=>{
+            try {
+                this.messages = messages;
+            } catch (e) {
+                console.error(e);
+            }
+          });
+
           if(refresher)refresher.complete();
         },(e)=>{console.error(e);}
       );

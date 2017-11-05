@@ -24,6 +24,11 @@
             <ion-item><img [src]="user.imageUrl"/></ion-item>
                 
         </ion-list>
+        <ion-list>
+            <button ion-item *ngFor="let message of messages" (click)="itemSelected(item)">
+              {{ message.id }}
+            </button>  
+          </ion-list>
       </ion-content>
       
       <style>

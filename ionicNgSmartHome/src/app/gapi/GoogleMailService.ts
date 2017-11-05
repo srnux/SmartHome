@@ -12,6 +12,7 @@ import {GoogleApiService} from "./GoogleApiService";
 import {GoogleClientService} from "./GoogleClientService";
 //import Label = gapi.client.gmail.Label;
 import GoogleUser = gapi.auth2.GoogleAuth;
+import Message = gapi.client.gmail.Message;
 import { IUser } from "../../services/user";
 
 @Injectable()
@@ -55,6 +56,31 @@ export class GoogleMailService {
                 historyId: userData.historyId,
                 messagesTotal : userData.messagesTotal
             };
+        });
+    }
+
+    public getMessages(query?:string): Observable<Message[]> {
+        let requestData={
+            'userId': 'me',
+            'labelIds': 'INBOX',
+            'maxResults': 10,
+            'q':query
+        };
+        return Observable.fromPromise(this.gmailClient.users.messages.list(this.requestData))
+        .map(this.parseResponseBody)
+        .map((userData: any) => {
+            console.info(JSON.stringify(userData));
+            return userData.messages;
+            // return <Message>{
+            //     id:userData.id,
+            //     threadId:userData.threadId,
+            //     internalDate:userData.internalDate,
+
+            //     // email: userData.emailAddress,
+            //     // threadsTotal: userData.threadsTotal,
+            //     // historyId: userData.historyId,
+            //     // messagesTotal : userData.messagesTotal
+            // };
         });
     }
 

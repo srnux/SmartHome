@@ -15,13 +15,14 @@ export class EmailNotification {
     user: IUser = {id:"",name:"",email:"",familyName:"",givenName:"",accessToken:"",imageUrl:"",token:"",threadsTotal:0,historyId:0,messagesTotal:0};
     constructor(public navCtrl: NavController, private googleUserService:GoogleUserService) {
         this.Init();
+        navCtrl.getActive
     }
 
     Init(refresher?:Refresher) {
       this.googleUserService.signIn().subscribe(
         (p)=>{
           this.user=this.googleUserService.user;//get authenticated user
-          
+
           this.googleUserService.getCurrentUser().subscribe((mail)=>{
             try {
                 this.user.threadsTotal=mail.threadsTotal;
@@ -32,7 +33,8 @@ export class EmailNotification {
             }
           });
 
-          this.googleUserService.getMessages().subscribe((messages)=>{
+          this.googleUserService.getMessages("newer_than:2d is:unread ").subscribe((messages)=>{
+            //console.warn(messages);
             try {
                 this.messages = messages;
             } catch (e) {

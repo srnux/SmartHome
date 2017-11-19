@@ -26,7 +26,7 @@
         </ion-list>
         <ion-list>
             <button ion-item *ngFor="let message of messages" (click)="itemSelected(item)">
-              {{ message.id }}
+              {{ message.result.id }} {{message.result.snippet}}
             </button>  
           </ion-list>
       </ion-content>

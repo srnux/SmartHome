@@ -27,7 +27,7 @@ export class GoogleUserService {
     }
 
     public getMessages(query?:string):Observable<Message[]>{
-        return this.googleMailService.getMailClient().mergeMap(()=> this.googleMailService.getMessages());
+        return this.googleMailService.getMailClient().mergeMap(()=> this.googleMailService.getMessages(query));
     }
 
     public getToken(): string {

@@ -1,7 +1,8 @@
 import { Component, NgZone } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import { Refresher } from 'ionic-angular';
-import { GoogleUserService } from '../../services/google.user.service'
+import { GoogleUserService } from '../../services/google.user.service';
+import { LightService } from '../../services/light.service';
 import GoogleUser = gapi.auth2.GoogleUser;
 import Message = gapi.client.gmail.Message;
 import {Observable} from 'rxjs/Rx';
@@ -13,7 +14,7 @@ export class EmailNotification {
     private messages:Message[];
 
     user: IUser = {id:"",name:"",email:"",familyName:"",givenName:"",accessToken:"",imageUrl:"",token:"",threadsTotal:0,historyId:0,messagesTotal:0};
-    constructor(public navCtrl: NavController, private googleUserService:GoogleUserService, private ngZone:NgZone) {
+    constructor(public navCtrl: NavController, private googleUserService:GoogleUserService,private lightService:LightService, private ngZone:NgZone) {
         this.Init();
         navCtrl.getActive
     }
@@ -33,15 +34,15 @@ export class EmailNotification {
             }
           });
 
-          Observable.interval(30000).subscribe(()=>{
+          Observable.interval(10000).subscribe(()=>{
             console.info("check e-mail");
-            this.googleUserService.getMessages("newer_than:2d is:unread ").subscribe((messages)=>{
+            this.googleUserService.getMessages("newer_than:2d is:unread Category:Personal").subscribe((messages)=>{
               //console.warn(messages);
               try {
                 this.ngZone.run(
                   ()=>{
                     this.messages = messages;
-                    
+                    this.lightService.notify().subscribe();
                   }
                 );  
                 

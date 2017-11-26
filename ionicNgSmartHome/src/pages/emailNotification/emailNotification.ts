@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, NgZone } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import { Refresher } from 'ionic-angular';
 import { GoogleUserService } from '../../services/google.user.service'
@@ -13,7 +13,7 @@ export class EmailNotification {
     private messages:Message[];
 
     user: IUser = {id:"",name:"",email:"",familyName:"",givenName:"",accessToken:"",imageUrl:"",token:"",threadsTotal:0,historyId:0,messagesTotal:0};
-    constructor(public navCtrl: NavController, private googleUserService:GoogleUserService) {
+    constructor(public navCtrl: NavController, private googleUserService:GoogleUserService, private ngZone:NgZone) {
         this.Init();
         navCtrl.getActive
     }
@@ -33,14 +33,25 @@ export class EmailNotification {
             }
           });
 
-          this.googleUserService.getMessages("newer_than:2d is:unread ").subscribe((messages)=>{
-            //console.warn(messages);
-            try {
-                this.messages = messages;
-            } catch (e) {
-                console.error(e);
-            }
+          Observable.interval(30000).subscribe(()=>{
+            console.info("check e-mail");
+            this.googleUserService.getMessages("newer_than:2d is:unread ").subscribe((messages)=>{
+              //console.warn(messages);
+              try {
+                this.ngZone.run(
+                  ()=>{
+                    this.messages = messages;
+                    
+                  }
+                );  
+                
+              } catch (e) {
+                  console.error(e);
+              }
+            });
           });
+
+          
 
           if(refresher)refresher.complete();
         },(e)=>{console.error(e);}
